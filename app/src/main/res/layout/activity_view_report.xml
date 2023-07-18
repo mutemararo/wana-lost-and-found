@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.add_view_report.ViewReportActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/button_action_positive"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:cardElevation="5dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/report_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="TextView"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/image_view_report_image"
+                    android:layout_width="0dp"
+                    android:layout_height="215dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/report_name"
+                    tools:src="@tools:sample/backgrounds/scenic" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_report_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Reported on: 21 May 2023"
+                    app:chipIcon="@drawable/time_icon"
+                    app:layout_constraintEnd_toEndOf="@+id/image_view_report_image"
+                    app:layout_constraintTop_toBottomOf="@+id/image_view_report_image" />
+
+                <CheckedTextView
+                    android:id="@+id/checkedTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:checked="true"
+                    android:drawableStart="@drawable/name_icon"
+                    android:drawablePadding="20dp"
+                    android:text="Description"
+                    android:textColor="#5A5858"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/chip_report_date" />
+
+                <TextView
+                    android:id="@+id/text_view_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:paddingStart="45dp"
+                    android:text="TextView"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/checkedTextView"
+                    app:layout_constraintStart_toStartOf="@+id/checkedTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/checkedTextView" />
+
+                <CheckedTextView
+                    android:id="@+id/checkedTextView2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:drawableStart="@drawable/tag_icon"
+                    android:drawablePadding="20dp"
+                    android:text="Tag"
+                    android:textColor="#5A5858"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="@+id/text_view_description"
+                    app:layout_constraintStart_toStartOf="@+id/text_view_description"
+                    app:layout_constraintTop_toBottomOf="@+id/text_view_description" />
+
+                <TextView
+                    android:id="@+id/text_view_tag_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:paddingStart="45dp"
+                    android:text="TextView"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/checkedTextView2"
+                    app:layout_constraintStart_toStartOf="@+id/checkedTextView2"
+                    app:layout_constraintTop_toBottomOf="@+id/checkedTextView2" />
+
+                <CheckedTextView
+                    android:id="@+id/checkedTextView3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:drawableStart="@drawable/location_icon"
+                    android:drawablePadding="20dp"
+                    android:text="Location"
+                    android:textColor="#5A5858"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="@+id/text_view_tag_label"
+                    app:layout_constraintStart_toStartOf="@+id/text_view_tag_label"
+                    app:layout_constraintTop_toBottomOf="@+id/text_view_tag_label" />
+
+                <TextView
+                    android:id="@+id/text_view_location"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:paddingStart="45dp"
+                    android:text="TextView"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="@+id/checkedTextView3"
+                    app:layout_constraintStart_toStartOf="@+id/checkedTextView3"
+                    app:layout_constraintTop_toBottomOf="@+id/checkedTextView3" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/authority_view_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_view_location"
+                    app:layout_constraintVertical_bias="1.0">
+
+                    <CheckedTextView
+                        android:id="@+id/checkedTextView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:drawableStart="@drawable/police_icon"
+                        android:drawablePadding="20dp"
+                        android:text="Authority Submitted to"
+                        android:textColor="#5A5858"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/text_view_authority_name_and_location"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:paddingStart="45dp"
+                        android:text="TextView"
+                        android:textColor="@color/black"
+                        app:layout_constraintEnd_toEndOf="@+id/checkedTextView4"
+                        app:layout_constraintStart_toStartOf="@+id/checkedTextView4"
+                        app:layout_constraintTop_toBottomOf="@+id/checkedTextView4" />
+
+                    <CheckedTextView
+                        android:id="@+id/checkedTextView5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:drawableStart="@drawable/phone_icon"
+                        android:drawablePadding="20dp"
+                        android:text="Authority Contact"
+                        android:textColor="#5A5858"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="@+id/text_view_authority_name_and_location"
+                        app:layout_constraintStart_toStartOf="@+id/text_view_authority_name_and_location"
+                        app:layout_constraintTop_toBottomOf="@+id/text_view_authority_name_and_location" />
+
+                    <TextView
+                        android:id="@+id/text_view_authority_contact"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:paddingStart="45dp"
+                        android:text="TextView"
+                        app:layout_constraintEnd_toEndOf="@+id/checkedTextView5"
+                        app:layout_constraintStart_toStartOf="@+id/checkedTextView5"
+                        app:layout_constraintTop_toBottomOf="@+id/checkedTextView5" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.core.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/button_action_positive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Button"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_action_negative"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Button"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2" />
+
+    <Button
+        android:id="@+id/button_action"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="38dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginBottom="16dp"
+        android:text="Button"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progress_view_report"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

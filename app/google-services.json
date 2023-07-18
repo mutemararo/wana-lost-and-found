@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "985030491074",
+    "project_id": "wana-lost-and-found",
+    "storage_bucket": "wana-lost-and-found.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:985030491074:android:fa892de0f7df8228aff45b",
+        "android_client_info": {
+          "package_name": "com.example.wana_lost_and_found"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "985030491074-tp3manso267kfpc2u11m89ek1it4rck4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wana_lost_and_found",
+            "certificate_hash": "2cd2e00509525ee111fec3d9eb3242241d23553e"
+          }
+        },
+        {
+          "client_id": "985030491074-of4jm1uur717n1i9ol09ltu2dkms8ppk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC40X7mfEABpA0C9bhRJqzF43NL_zRuBT8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "985030491074-8jb90uiirl5psob3a1n3s1cs7q0ved1n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
