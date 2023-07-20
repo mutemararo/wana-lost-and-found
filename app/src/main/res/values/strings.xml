@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">wana-lost-and-found</string>
+    <string name="app_name">Wana</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -28,4 +28,15 @@
     <string name="view_general_lost_report_action_button">Found it</string>
     <string name="view_general_found_report_action_button">Claim it</string>
     <string name="view_general_report_negative_button">Cancel</string>
+    <string name="claims">Claims</string>
+    <string name="submissions">Submissions</string>
+    <string name="collections">Collections</string>
+    <string name="pending_claim_time_text">Item was found %1s</string>
+    <string name="pending_submission_time_text">You found this item %1s</string>
+    <string name="pending_collection_time_text">You claimed this item %1s</string>
+    <string name="button_collected">Collected</string>
+    <string name="no_pending_items">No items to %1s</string>
+    <string name="claims_description">Your lost items have been found, Claim them</string>
+    <string name="submissions_description">Submit these items you found to nearest police</string>
+    <string name="collections_description">Collect these items you claimed in 7 days\n</string>
 </resources>

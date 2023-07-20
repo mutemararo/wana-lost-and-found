@@ -122,9 +122,15 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
                 hideBottomNavAndFab()
             }
             R.id.navigation_home ->{
+                supportActionBar!!.title = "My Reports"
                 showBottomNavAndFab()
             }
-            R.id.navigation_reports, R.id.navigation_pending ->{
+            R.id.navigation_reports ->{
+                supportActionBar!!.title = "Global Reports"
+                hideFab()
+            }
+            R.id.navigation_pending ->{
+                supportActionBar!!.title = "Pending actions"
                 hideFab()
             }
         }

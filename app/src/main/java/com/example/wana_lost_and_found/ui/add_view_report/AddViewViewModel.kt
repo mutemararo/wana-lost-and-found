@@ -17,7 +17,6 @@ class AddViewViewModel(val application : Application): ViewModel() {
     val itemName: LiveData<String> = _itemName
     private lateinit var mBytes: ByteArray
 
-    val workmanager = WorkManager.getInstance(application)
 
     fun uploadReport(uri: Uri?){
 

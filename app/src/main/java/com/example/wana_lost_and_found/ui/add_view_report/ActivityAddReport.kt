@@ -259,10 +259,12 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
     }
 
     private fun showProgress(){
-        binding.progressAddReport.visibility = View.VISIBLE
+        if(binding.progressAddReport.visibility == View.GONE)
+            binding.progressAddReport.visibility = View.VISIBLE
     }
     private fun hideProgress(){
-        binding.progressAddReport.visibility = View.GONE
+        if(binding.progressAddReport.visibility == View.VISIBLE)
+            binding.progressAddReport.visibility = View.GONE
     }
     private fun uploadToDatabase(report: Report, downloadUri: String, randomId: String){
         report.reportID = if(extraIntent?.getStringExtra(REPORT_ID_EXTRA_KEY).isNullOrEmpty() || !(extraIntent?.getStringExtra(
@@ -281,23 +283,34 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
                         else report.dateReported
         report.tagLabel = if(binding.switchHasTag.isChecked) binding.editTagLabel.text?.trim().toString() else "no tage"
         report.reportType = extraIntent?.getStringExtra(REPORT_TYPE_EXTRA_KEY)!!
-        report.reportStatus = if (extraIntent?.getStringExtra(REPORT_STATUS_EXTRA_KEY).isNullOrEmpty() || !(extraIntent?.getStringExtra(
-            REPORT_STATUS_EXTRA_KEY).isNullOrEmpty())) ReportStatus.REPORTED.status
-            else extraIntent?.getStringExtra(REPORT_STATUS_EXTRA_KEY)!!
+        report.reportStatus = if(report.reportStatus != ReportStatus.REPORTED.status) report.reportStatus else ReportStatus.REPORTED.status
         report.responseTo = if (!(extraIntent?.getStringExtra(REPORT_STATUS_EXTRA_KEY).isNullOrEmpty()))
-            extraIntent?.getStringExtra(REPORT_ID_EXTRA_KEY)!! else " "
+            extraIntent?.getStringExtra(REPORT_ID_EXTRA_KEY)!! else if (report.responseTo.isNotEmpty()) report.responseTo else " "
         report.dateResponded = if (!(extraIntent?.getStringExtra(REPORT_STATUS_EXTRA_KEY).isNullOrEmpty()))
-            System.currentTimeMillis().toString() else " "
+            System.currentTimeMillis().toString() else if (report.dateResponded.isNotEmpty()) report.dateResponded else " "
         report.nameOfAuthority = binding.editAuthorityName.text?.trim().toString()
         report.locationOfAuthority = binding.editAuthorityLocation.text?.trim().toString()
         report.contactOfAuthority = binding.editAthorityContact.text?.trim().toString()
 
+        //changing report status for a lost report being responded to, status == found(formerly reported)
         if (!(extraIntent?.getStringExtra(REPORT_STATUS_EXTRA_KEY).isNullOrEmpty())){
             databaseRef
                 .child("reports")
                 .child(extraIntent!!.getStringExtra(REPORT_ID_EXTRA_KEY)!!)
                 .child("reportStatus")
                 .setValue(extraIntent?.getStringExtra(REPORT_STATUS_EXTRA_KEY))
+
+            databaseRef
+                .child(getString(com.example.wana_lost_and_found.R.string.reports_database_node))
+                .child(extraIntent!!.getStringExtra(REPORT_ID_EXTRA_KEY)!!)
+                .child("responseTo")
+                .setValue(randomId)
+
+            databaseRef
+                .child(getString(com.example.wana_lost_and_found.R.string.reports_database_node))
+                .child(extraIntent!!.getStringExtra(REPORT_ID_EXTRA_KEY)!!)
+                .child("dateResponded")
+                .setValue(System.currentTimeMillis().toString())
         }
 
         databaseRef
@@ -354,6 +367,7 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
                             }
                             ReportType.FOUND.identity -> {
                                 populateViewsForFoundReport(report)
+                                originalImageUrl = report?.itemImage!!
                             }
                         }
                         binding.run {
@@ -361,6 +375,8 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
                                 showProgress()
                                 uploadToDatabase(report!!, report.itemImage, report.reportID)
                                 hideProgress()
+                                makeToast(this@ActivityAddReport, "updated report")
+                                finish()
                             }
                             buttonCancel.setOnClickListener {
                                 finish()
@@ -381,6 +397,8 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
     private fun populateViewsForLostReport(report: Report?){
         val spinnerPosition = spinnerAdapter.getPosition(report?.country)
         binding.run {
+            switchHasTag.isChecked = true
+            layoutEditTagLabel.visibility = View.VISIBLE
             Glide.with(this@ActivityAddReport)
                 .load(report?.itemImage)
                 .placeholder(ContextCompat.getDrawable(this@ActivityAddReport, drawable.icon_hourglass))
@@ -399,6 +417,7 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
         if (report!!.submitted){
             binding.apply {
                 switchSubmittedToAuthority.isChecked = true
+                layoutAuthorityDetails.visibility = View.VISIBLE
                 editAuthorityName.setText(report.nameOfAuthority, TextView.BufferType.SPANNABLE)
                 editAuthorityLocation.setText(report.locationOfAuthority, TextView.BufferType.SPANNABLE)
                 editAthorityContact.setText(report.contactOfAuthority, TextView.BufferType.SPANNABLE)
@@ -412,6 +431,10 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
         binding.switchSubmittedToAuthority.visibility = View.GONE
         binding.layoutAuthorityDetails.visibility = View.GONE
         title = "Report Lost Item"
+        binding.switchHasTag.setOnClickListener {switch ->
+            binding.layoutEditTagLabel.visibility =
+                if((switch as Switch).isChecked) View.VISIBLE else View.INVISIBLE
+        }
     }
 
     private fun prepareActivityForFoundReport() {
@@ -420,6 +443,10 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
             binding.layoutAuthorityDetails.visibility =
                 if ((switch as Switch).isChecked) View.VISIBLE
                 else View.GONE
+        }
+        binding.switchHasTag.setOnClickListener {switch ->
+            binding.layoutEditTagLabel.visibility =
+                if((switch as Switch).isChecked) View.VISIBLE else View.INVISIBLE
         }
     }
 
