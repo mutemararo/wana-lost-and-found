@@ -1,12 +1,15 @@
 package com.example.wana_lost_and_found.ui.add_view_report
 
+import android.Manifest
 import android.R
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.Settings
 import android.text.TextUtils
 import android.view.View
 import android.webkit.MimeTypeMap
@@ -17,6 +20,8 @@ import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -41,6 +46,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -98,14 +108,27 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
         setContentView(binding.root)
 
         var myUri : Uri? = null
-        try {
-            myUri = savedInstanceState?.getString("imageUri")!!.toUri()
-        }catch (e: NullPointerException){
-            print(e)
+
+        savedInstanceState?.let {
+            try {
+                if (it.getString("cameraUri").isNullOrEmpty()){
+                    myUri = it.getString("galleryUri")!!.toUri()
+                    galleryUri = myUri
+                }else{
+                    myUri = it.getString("cameraUri")!!.toUri()
+                    cameraUri = myUri
+                }
+            }catch (e: NullPointerException){
+                print(e)
+            }
+            if (myUri != null){
+
+                Glide.with(this@ActivityAddReport)
+                    .load(myUri)
+                    .into(binding.editReportImage)
+            }
         }
-        if (myUri != null){
-            cameraUri = myUri
-        }
+
         extraIntent = intent
 
         initializer()
@@ -130,19 +153,7 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
         }
 
         binding.editReportImage.setOnClickListener {
-            val dialogBuilder = MaterialAlertDialogBuilder(this@ActivityAddReport)
-                .setTitle("Select Option")
-                .setMessage("Choose where to get your photo")
-                .setNegativeButton("take photo"
-                ) { p0, p1 ->
-                    launchCamera()
-                }
-                .setPositiveButton("select from files"){p0, p1 ->
-                    launchGallery()
-                }
-                .create()
-
-            dialogBuilder.show()
+            requestPermissions()
         }
 
         binding.buttonSubmit.setOnClickListener{
@@ -150,12 +161,12 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
                 if (extraIntent?.getStringExtra(REPORT_TYPE_EXTRA_KEY) == ReportType.FOUND.identity){
                     if(cameraUri != null || galleryUri != null) {
                         if (switchSubmittedToAuthority.isChecked) {
-                            if (!(editName.text.isNullOrEmpty() &&
-                                        editCity.text.isNullOrEmpty() &&
-                                        editDescription.text.isNullOrEmpty()) &&
-                                !(editAuthorityName.text.isNullOrEmpty() &&
-                                        editAuthorityLocation.text.isNullOrEmpty() &&
-                                        editAthorityContact.text.isNullOrEmpty())
+                            if (!(editName.text.isNullOrBlank() &&
+                                        editCity.text.isNullOrBlank() &&
+                                        editDescription.text.isNullOrBlank()) &&
+                                !(editAuthorityName.text.isNullOrBlank() &&
+                                        editAuthorityLocation.text.isNullOrBlank() &&
+                                        editAthorityContact.text.isNullOrBlank())
                             ) {
                                 if(cameraUri == null){
                                     CoroutineScope(Dispatchers.Main).launch {
@@ -181,13 +192,15 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
                         makeToast(this@ActivityAddReport, "take photo or select image")
                     }
                 }else{
-                    if (!(editName.text.isNullOrEmpty() &&
-                                editCity.text.isNullOrEmpty() &&
-                                editDescription.text.isNullOrEmpty())){
+                    if (!(editName.text.isNullOrBlank() &&
+                                editCity.text.isNullOrBlank() &&
+                                editDescription.text.isNullOrBlank())){
                         CoroutineScope(Dispatchers.Main).launch {
                             uploadReport(if (cameraUri == null) galleryUri
                             else if (galleryUri == null) cameraUri else null)
                         }
+                    }else{
+                        makeToast(this@ActivityAddReport, "enter all fields")
                     }
 
                 }
@@ -453,7 +466,9 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         if(cameraUri != null){
-            outState.putString("imageUri", cameraUri.toString())
+            outState.putString("cameraUri", cameraUri.toString())
+        }else if (galleryUri != null){
+            outState.putString("galleryUri", galleryUri.toString())
         }
     }
 
@@ -473,4 +488,84 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
     override fun onNothingSelected(p0: AdapterView<*>?) {
 
     }
+
+
+    private fun requestPermissions() {
+        // below line is use to request permission in the current activity.
+        // this method is use to handle error in runtime permissions
+        Dexter.withContext(this@ActivityAddReport)
+            // below line is use to request the number of permissions which are required in our app.
+            .withPermissions(
+                Manifest.permission.CAMERA
+                // below is the list of permissions
+                    )
+            // after adding permissions we are calling an with listener method.
+            .withListener(object : MultiplePermissionsListener {
+                override fun onPermissionsChecked(multiplePermissionsReport: MultiplePermissionsReport) {
+                    // this method is called when all permissions are granted
+                    if (multiplePermissionsReport.areAllPermissionsGranted()) {
+                        // do you work now
+                        Toast.makeText(this@ActivityAddReport, "All the permissions are granted..", Toast.LENGTH_SHORT).show()
+                        val dialogBuilder = MaterialAlertDialogBuilder(this@ActivityAddReport)
+                            .setTitle("Select Option")
+                            .setMessage("Choose where to get your photo")
+                            .setNegativeButton("take photo"
+                            ) { p0, p1 ->
+                                launchCamera()
+                            }
+                            .setPositiveButton("select from files"){p0, p1 ->
+                                launchGallery()
+                            }
+                            .create()
+
+                        dialogBuilder.show()
+                    }
+                    // check for permanent denial of any permission
+                    if (multiplePermissionsReport.isAnyPermissionPermanentlyDenied) {
+                        // permission is denied permanently, we will show user a dialog message.
+                        showSettingsDialog()
+                    }
+                }
+
+                override fun onPermissionRationaleShouldBeShown(list: List<PermissionRequest>, permissionToken: PermissionToken) {
+                    // this method is called when user grants some permission and denies some of them.
+                    permissionToken.continuePermissionRequest()
+                }
+            }).withErrorListener {
+                // we are displaying a toast message for error message.
+                Toast.makeText(applicationContext, "Error occurred! ", Toast.LENGTH_SHORT).show()
+            }
+            // below line is use to run the permissions on same thread and to check the permissions
+            .onSameThread().check()
+    }
+
+    // below is the shoe setting dialog method
+    // which is use to display a dialogue message.
+    private fun showSettingsDialog() {
+        // we are displaying an alert dialog for permissions
+        val builder = AlertDialog.Builder(this@ActivityAddReport)
+
+        // below line is the title for our alert dialog.
+        builder.setTitle("Need Permissions")
+
+        // below line is our message for our dialog
+        builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.")
+        builder.setPositiveButton("GOTO SETTINGS") { dialog, which ->
+            // this method is called on click on positive button and on clicking shit button
+            // we are redirecting our user from our app to the settings page of our app.
+            dialog.cancel()
+            // below is the intent from which we are redirecting our user.
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            val uri = Uri.fromParts("package", packageName, null)
+            intent.data = uri
+            startActivityForResult(intent, 101)
+        }
+        builder.setNegativeButton("Cancel") { dialog, which ->
+            // this method is called when user click on negative button.
+            dialog.cancel()
+        }
+        // below line is used to display our dialog
+        builder.show()
+    }
+
 }

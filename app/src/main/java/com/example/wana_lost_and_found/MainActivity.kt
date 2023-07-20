@@ -10,6 +10,7 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -20,6 +21,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.manager.Lifecycle
+import com.example.wana_lost_and_found.R.*
 import com.example.wana_lost_and_found.databinding.ActivityMainBinding
 import com.example.wana_lost_and_found.model.ReportType
 import com.example.wana_lost_and_found.ui.add_view_report.ActivityAddReport
@@ -42,7 +44,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.setLogo(R.drawable.ic_launcher_foreground)
+        supportActionBar?.setLogo(drawable.ic_launcher_foreground)
         supportActionBar?.setDisplayUseLogoEnabled(true)
         supportActionBar?.title = "My Reports"
 
@@ -53,7 +55,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when(menuItem.itemId){
-                    R.id.action_sign_out ->{
+                    id.action_sign_out ->{
                         firebaseAuth.signOut()
                         val loginIntent = Intent(this@MainActivity, LoginActivity::class.java)
                         startActivity(loginIntent)
@@ -69,14 +71,14 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         val navView: BottomNavigationView = binding.navView
 
         val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+            .findFragmentById(id.nav_host_fragment_activity_main) as NavHostFragment
 
         navController = navHostFragment.navController
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_reports, R.id.navigation_pending
+                id.navigation_home, id.navigation_reports, id.navigation_pending
             )
         )
 //        setupActionBarWithNavController(navController, appBarConfiguration)
@@ -91,6 +93,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             val reportTypeDialog = MaterialAlertDialogBuilder(this@MainActivity)
                 .setTitle("Add Report")
                 .setMessage("Report item you have...")
+                .setIcon(ContextCompat.getDrawable(this@MainActivity, drawable.ic_launcher_foreground))
                 .setPositiveButton("Found"){_, _ ->
                     val foundReportIntent = Intent(this@MainActivity,
                         ActivityAddReport::class.java)
@@ -118,18 +121,18 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         arguments: Bundle?
     ) {
         when(destination.id){
-            R.id.addReportFragment ->{
+            id.addReportFragment ->{
                 hideBottomNavAndFab()
             }
-            R.id.navigation_home ->{
+            id.navigation_home ->{
                 supportActionBar!!.title = "My Reports"
                 showBottomNavAndFab()
             }
-            R.id.navigation_reports ->{
+            id.navigation_reports ->{
                 supportActionBar!!.title = "Global Reports"
                 hideFab()
             }
-            R.id.navigation_pending ->{
+            id.navigation_pending ->{
                 supportActionBar!!.title = "Pending actions"
                 hideFab()
             }
