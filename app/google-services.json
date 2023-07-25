@@ -1,23 +1,24 @@
 {
   "project_info": {
     "project_number": "985030491074",
+    "firebase_url": "https://wana-lost-and-found-default-rtdb.firebaseio.com",
     "project_id": "wana-lost-and-found",
     "storage_bucket": "wana-lost-and-found.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:985030491074:android:fa892de0f7df8228aff45b",
+        "mobilesdk_app_id": "1:985030491074:android:51452dd2135811ffaff45b",
         "android_client_info": {
-          "package_name": "com.example.wana_lost_and_found"
+          "package_name": "com.wanalnf.wana_lost_and_found"
         }
       },
       "oauth_client": [
         {
-          "client_id": "985030491074-tp3manso267kfpc2u11m89ek1it4rck4.apps.googleusercontent.com",
+          "client_id": "985030491074-9ifdfdlpogo3shv8v64659n7tv1mjmq8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.wana_lost_and_found",
+            "package_name": "com.wanalnf.wana_lost_and_found",
             "certificate_hash": "2cd2e00509525ee111fec3d9eb3242241d23553e"
           }
         },

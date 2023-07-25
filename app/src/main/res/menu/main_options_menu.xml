@@ -4,5 +4,8 @@
     <item
         android:id="@+id/action_sign_out"
         android:icon="@drawable/sign_out_icon"
-        android:title="Sign out" />
+        android:title="@string/sign_out" />
+    <item
+        android:id="@+id/action_privacy_policy"
+        android:title="@string/privacy_policy" />
 </menu>

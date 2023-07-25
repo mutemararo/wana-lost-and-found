@@ -47,7 +47,7 @@
         <activity
             android:name=".ui.add_view_report.ActivityAddReport"
             android:parentActivityName=".MainActivity" />
-        <activity android:name="com.example.wana_lost_and_found.ui.add_view_report.ViewReportActivity" />
+        <activity android:name="com.wanalnf.wana_lost_and_found.ui.add_view_report.ViewReportActivity" />
     </application>
 
 </manifest>

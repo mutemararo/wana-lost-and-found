@@ -39,4 +39,7 @@
     <string name="claims_description">Your lost items have been found, Claim them</string>
     <string name="submissions_description">Submit these items you found to nearest police</string>
     <string name="collections_description">Collect these items you claimed in 7 days\n</string>
+
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="sign_out">Sign out</string>
 </resources>

@@ -22,6 +22,7 @@
             android:id="@+id/login_email_edit_text"
             android:layout_width="match_parent"
             android:layout_height="65dp"
+            android:inputType="textEmailAddress"
             android:hint="email" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -31,6 +32,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/color_primary"
         app:layout_constraintEnd_toEndOf="@+id/login_email_input_layout"
         app:layout_constraintStart_toStartOf="@+id/login_email_input_layout"
         app:layout_constraintTop_toBottomOf="@+id/login_email_input_layout">
@@ -39,6 +42,7 @@
             android:id="@+id/login_password_edit_text"
             android:layout_width="match_parent"
             android:layout_height="65dp"
+            android:inputType="textPassword"
             android:hint="password" />
 
     </com.google.android.material.textfield.TextInputLayout>

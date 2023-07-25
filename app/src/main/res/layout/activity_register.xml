@@ -35,7 +35,9 @@
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-        app:passwordToggleDrawable="@drawable/visibility_off_icon">
+        app:passwordToggleDrawable="@drawable/visibility_off_icon"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/color_primary">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signup_password_edit_text"
@@ -55,7 +57,9 @@
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout2"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout2"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
-        app:passwordToggleDrawable="@drawable/visibility_off_icon">
+        app:passwordToggleDrawable="@drawable/visibility_off_icon"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/color_primary">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signup_confirm_password_edit_text"

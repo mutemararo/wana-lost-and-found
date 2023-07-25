@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.wana_lost_and_found.ui.home.HomeFragment"
+        android:name="com.wanalnf.wana_lost_and_found.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -17,18 +17,18 @@
 
     <fragment
         android:id="@+id/navigation_reports"
-        android:name="com.example.wana_lost_and_found.ui.reports.ReportsFragment"
+        android:name="com.wanalnf.wana_lost_and_found.ui.reports.ReportsFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_reports" />
 
     <fragment
         android:id="@+id/navigation_pending"
-        android:name="com.example.wana_lost_and_found.ui.pendings.PendingFragment"
+        android:name="com.wanalnf.wana_lost_and_found.ui.pendings.PendingFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_pending" />
     <fragment
         android:id="@+id/addReportFragment"
-        android:name="com.example.wana_lost_and_found.ui.add_view_report.ActivityAddReport"
+        android:name="com.wanalnf.wana_lost_and_found.ui.add_view_report.ActivityAddReport"
         android:label="fragment_add_report"
         tools:layout="@layout/fragment_add_report" />
 </navigation>

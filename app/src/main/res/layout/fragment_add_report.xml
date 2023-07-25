@@ -71,7 +71,8 @@
                     android:id="@+id/edit_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="name" />
+                    android:hint="name"
+                    android:inputType="text|textCapSentences" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -89,7 +90,8 @@
                     android:id="@+id/edit_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="description" />
+                    android:hint="description"
+                    android:inputType="text|textCapSentences" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Switch
@@ -118,7 +120,8 @@
                     android:id="@+id/edit_tag_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="tag label" />
+                    android:hint="tag label"
+                    android:inputType="text|textCapSentences" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Switch
@@ -170,7 +173,8 @@
                         android:id="@+id/edit_authority_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="authority`s name" />
+                        android:hint="authority`s name"
+                        android:inputType="text|textCapSentences" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -188,7 +192,8 @@
                         android:id="@+id/edit_authority_location"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="authority`s location" />
+                        android:hint="authority`s location"
+                        android:inputType="text|textCapSentences" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -208,7 +213,8 @@
                         android:id="@+id/edit_athority_contact"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="authority`s contact" />
+                        android:hint="authority`s contact"
+                        android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -237,7 +243,8 @@
                     android:id="@+id/edit_city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="city" />
+                    android:hint="city"
+                    android:inputType="text|textCapSentences" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <ProgressBar

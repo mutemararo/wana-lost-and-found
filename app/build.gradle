@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.wana_lost_and_found'
+    namespace 'com.wanalnf.wana_lost_and_found'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.wana_lost_and_found"
+        applicationId "com.wanalnf.wana_lost_and_found"
         minSdk 21
         targetSdk 33
         versionCode 1
