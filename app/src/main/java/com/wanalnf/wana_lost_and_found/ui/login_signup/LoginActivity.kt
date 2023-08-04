@@ -26,9 +26,11 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var authStateListener : FirebaseAuth.AuthStateListener
 
-    private val googleSignInIntent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+    private val googleSignInIntent = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()){
 
         if (it.resultCode == RESULT_OK){
+            showProgress()
             val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
             handleTask(task)
         }
@@ -41,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(R.string.default_web_client_id.toString())
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 
@@ -82,32 +84,30 @@ class LoginActivity : AppCompatActivity() {
 
     private fun loginUserWithEmailAndPassword(email: String, password: String){
         showProgress()
-                firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener{signinTask ->
-                    if (firebaseAuth.currentUser?.isEmailVerified == true){
-                        if (signinTask.isSuccessful){
-                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                            startActivity(intent)
-                            hideProgress()
-                            finish()
-                        }else{
-                            Log.d("login process", "not successful")
-                            makeToast(this@LoginActivity, "process canceled")
-                        }
+            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener{signinTask ->
+                if (firebaseAuth.currentUser?.isEmailVerified == true){
+                    if (signinTask.isSuccessful){
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intent)
+                        hideProgress()
+                        finish()
                     }else{
-                        makeToast(this@LoginActivity, "check verification email in inbox")
+                        Log.d("login process", "not successful")
+                        makeToast(this@LoginActivity, "process canceled")
                     }
+                }else{
+                    makeToast(this@LoginActivity, "check verification email in inbox")
                 }
-                    .addOnCanceledListener {
-                        Log.d("login process", "process canceled")
-                        makeToast(this@LoginActivity, "Process canceled, try again")
-                    }
-                    .addOnFailureListener { e ->
-                        Log.d("login process", "failed login${e.message} because ${e.cause}")
-                        makeToast(this@LoginActivity, "Failed to login user")
-                    }
-
-
+            }
+                .addOnCanceledListener {
+                    Log.d("login process", "process canceled")
+                    makeToast(this@LoginActivity, "Process canceled, try again")
+                }
+                .addOnFailureListener { e ->
+                    Log.d("login process", "failed login${e.message} because ${e.cause}")
+                    makeToast(this@LoginActivity, "Failed to login user")
+                }
 
     }
 
@@ -126,8 +126,12 @@ class LoginActivity : AppCompatActivity() {
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener{
             if (it.isSuccessful){
                 val mainIntent = Intent(this@LoginActivity, MainActivity::class.java)
+                mainIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(mainIntent)
+                hideProgress()
+                finish()
             }else{
+                hideProgress()
                 makeToast(this@LoginActivity, "failed to sign in this email")
             }
         }

@@ -1,11 +1,13 @@
 package com.wanalnf.wana_lost_and_found.ui.pendings
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.ColorRes
 import com.wanalnf.wana_lost_and_found.R
 import com.wanalnf.wana_lost_and_found.databinding.FragmentPendingBinding
 import com.wanalnf.wana_lost_and_found.model.PendingType
@@ -49,14 +51,23 @@ class PendingFragment : Fragment() {
             claimsChip.setOnClickListener{
                 pendingType = PendingType.CLAIMS
                 showPendingClaimsList(pendingType)
+                claimsChip.setChipBackgroundColorResource(R.color.background_selected_chip)
+                submissionsChip.setChipBackgroundColorResource(R.color.background_grey)
+                collectionsChip.setChipBackgroundColorResource(R.color.background_grey)
             }
             submissionsChip.setOnClickListener {
                 pendingType = PendingType.SUBMISSIONS
                 showPendingSubmissionsList(pendingType)
+                claimsChip.setChipBackgroundColorResource(R.color.background_grey)
+                submissionsChip.setChipBackgroundColorResource(R.color.background_selected_chip)
+                collectionsChip.setChipBackgroundColorResource(R.color.background_grey)
             }
             collectionsChip.setOnClickListener {
                 pendingType = PendingType.COLLECTIONS
                 showPendingCollectionsList(pendingType)
+                claimsChip.setChipBackgroundColorResource(R.color.background_grey)
+                submissionsChip.setChipBackgroundColorResource(R.color.background_grey)
+                collectionsChip.setChipBackgroundColorResource(R.color.background_selected_chip)
             }
         }
 
@@ -64,6 +75,12 @@ class PendingFragment : Fragment() {
 
     private fun initializer(){
         showPendingClaimsList(pendingType)
+        binding.run {
+            claimsChip.setChipBackgroundColorResource(R.color.background_selected_chip)
+            submissionsChip.setChipBackgroundColorResource(R.color.background_grey)
+            collectionsChip.setChipBackgroundColorResource(R.color.background_grey)
+        }
+
     }
 
     fun showProgress(){
