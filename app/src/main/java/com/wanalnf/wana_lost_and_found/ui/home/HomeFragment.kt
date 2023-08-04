@@ -1,7 +1,12 @@
 package com.wanalnf.wana_lost_and_found.ui.home
 
+
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +26,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
+const val TAG = "HomeFragment"
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
@@ -55,31 +61,36 @@ class HomeFragment : Fragment() {
         }
         binding.simpleHomeList.adapter = listAdapter
 
-        databaseRef
-            .child(getString(R.string.reports_database_node))
-            .orderByChild("reportedBy")
-            .equalTo(firebaseAuth.currentUser!!.uid)
-            .addValueEventListener(object : ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
+        if (isNetworkAvailable()){
+            databaseRef
+                .child(getString(R.string.reports_database_node))
+                .orderByChild("reportedBy")
+                .equalTo(firebaseAuth.currentUser!!.uid)
+                .addValueEventListener(object : ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
 
-                    for (report in snapshot.children){
-                        val item = report.getValue(Report::class.java)
+                        for (report in snapshot.children){
+                            val item = report.getValue(Report::class.java)
 
-                        item?.let { listOfReports.add(it) }
+                            item?.let { listOfReports.add(it) }
+                        }
+                        if(listOfReports.isEmpty()){
+                            showEmptyFolder()
+                            hideProgress()
+                        }else{
+                            listAdapter.submitList(listOfReports)
+                            hideProgress()
+                        }
                     }
-                    if(listOfReports.isEmpty()){
-                        showEmptyFolder()
-                        hideProgress()
-                    }else{
-                        listAdapter.submitList(listOfReports)
-                        hideProgress()
+
+                    override fun onCancelled(error: DatabaseError) {
                     }
-                }
 
-                override fun onCancelled(error: DatabaseError) {
-                }
+                })
+        }else{
+            context?.let { makeToast(it, "no network") }
+        }
 
-            })
     }
 
     private fun showProgress(){
@@ -101,5 +112,30 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun isNetworkAvailable(): Boolean{
+        val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            val networkCapabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            return if(networkCapabilities == null){
+                Log.d(TAG, "Device is offline")
+                false
+            }else{
+                Log.d(TAG, "Device is online")
+                true
+            }
+        }else{
+            val activeNetwork = connectivityManager.activeNetworkInfo
+
+            return if (activeNetwork?.isConnectedOrConnecting!!){
+                Log.d(TAG, "Device online")
+                true
+            }else{
+                Log.d(TAG, "Device offline")
+                false
+            }
+        }
+
     }
 }
