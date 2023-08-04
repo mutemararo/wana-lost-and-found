@@ -233,7 +233,7 @@ class ViewReportActivity : AppCompatActivity() {
                                 textViewAuthorityContact.text = report.contactOfAuthority
                                 Glide.with(this@ViewReportActivity)
                                     .load(report.itemImage)
-                                    .placeholder(R.drawable.icon_hourglass)
+                                    .placeholder(R.drawable.loading_animation)
                                     .into(imageViewReportImage)
                             }
                         }

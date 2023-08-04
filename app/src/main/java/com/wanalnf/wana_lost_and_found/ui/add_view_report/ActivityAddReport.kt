@@ -408,7 +408,7 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
             layoutEditTagLabel.visibility = View.VISIBLE
             Glide.with(this@ActivityAddReport)
                 .load(report?.itemImage)
-                .placeholder(ContextCompat.getDrawable(this@ActivityAddReport, drawable.icon_hourglass))
+                .placeholder(ContextCompat.getDrawable(this@ActivityAddReport, drawable.loading_animation))
                 .into(editReportImage)
             editName.setText(report?.itemName, TextView.BufferType.SPANNABLE)
             editDescription.setText(report?.description, TextView.BufferType.SPANNABLE)

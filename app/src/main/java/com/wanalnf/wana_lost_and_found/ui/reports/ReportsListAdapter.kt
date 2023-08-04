@@ -27,7 +27,7 @@ class ReportsListAdapter(val context: Context, val reportsList: MutableList<Repo
                         reportItemImage.apply {
                             Glide.with(context)
                                 .load(report.itemImage)
-                                .placeholder(ContextCompat.getDrawable(context, R.drawable.icon_hourglass))
+                                .placeholder(ContextCompat.getDrawable(context, R.drawable.loading_animation))
                                 .into(this)
                         }
 

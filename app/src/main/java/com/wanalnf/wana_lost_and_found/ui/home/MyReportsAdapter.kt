@@ -32,7 +32,7 @@ class MyReportsAdapter(val context: Context, var reportList: MutableList<Report>
                         .load(report.itemImage)
                         .centerCrop()
                         .transform(RoundedCorners(15))
-                        .placeholder(ContextCompat.getDrawable(context, R.drawable.icon_hourglass))
+                        .placeholder(ContextCompat.getDrawable(context, R.drawable.loading_animation))
                         .into(this)
                 }
             }

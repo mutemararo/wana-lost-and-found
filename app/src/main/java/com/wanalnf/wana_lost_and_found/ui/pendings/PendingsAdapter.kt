@@ -34,7 +34,7 @@ class PendingsAdapter(val context: Context, val reportsList: MutableList<Report>
                         pendingItemImage.apply {
                             Glide.with(context)
                                 .load(report.itemImage)
-                                .placeholder(ContextCompat.getDrawable(context, R.drawable.icon_hourglass))
+                                .placeholder(ContextCompat.getDrawable(context, R.drawable.loading_animation))
                                 .into(this)
                         }
                     }
