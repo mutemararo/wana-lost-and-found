@@ -15,12 +15,11 @@ class TimeCalculations {
         val date2 = sdf.parse(endDate)
         val date1 = sdf.parse(timeStampToString(startDate.toLong()))
 
-        var isNegative = false
-        var difference = date2.time - date1.time
+
+        var difference = date2!!.time - date1!!.time
 
         if(difference < 0){
             difference = -(difference)
-            isNegative = true
         }
 
         val minutes = difference / 60 / 1000

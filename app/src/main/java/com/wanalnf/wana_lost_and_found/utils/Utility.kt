@@ -26,41 +26,6 @@ fun makeToast(context: Context, message: String){
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
 
-//register a new email
-fun registerReporterNewEmail(email: String, password: String){
-
-    FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-        .addOnCompleteListener(){task ->
-
-            if (task.isSuccessful){
-
-                //adding a new reporter to database
-
-                var reporter = Report()
-                reporter.reportID = ""
-                reporter.reportedBy = FirebaseAuth.getInstance().currentUser!!.uid
-                reporter.country = ""
-
-                //adding user to firebase database
-                FirebaseDatabase.getInstance().reference.child("reporters")
-                    .child(FirebaseAuth.getInstance().currentUser!!.uid)
-                    .setValue(reporter)
-                    .addOnCompleteListener(){
-                        if(it.isComplete){
-                            //signing out and redirect
-                            FirebaseAuth.getInstance().signOut()
-                        }
-                    }
-                    .addOnFailureListener {
-                        //sign out and redirect to login again
-                    }
-            }else if(task.isCanceled){
-
-            }else{
-
-            }
-        }
-}
 
 //reading information from the database
 
@@ -86,17 +51,3 @@ fun getData(){
     })
 }
 
-fun createDialog(title: String, message: String, negativeButton: String, positiveButton: String){
-    val dialogBuilder = MaterialAlertDialogBuilder(Application().applicationContext)
-        .setTitle(title)
-        .setMessage(message)
-        .setNegativeButton(negativeButton
-        ) { _, _ ->
-
-        }
-        .setPositiveButton(positiveButton){p0, p1 ->
-
-        }
-        .create()
-        .show()
-}

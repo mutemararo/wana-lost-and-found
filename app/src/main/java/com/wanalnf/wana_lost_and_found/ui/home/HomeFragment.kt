@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.wanalnf.wana_lost_and_found.R
 import com.wanalnf.wana_lost_and_found.databinding.FragmentHomeBinding
@@ -25,6 +26,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.wanalnf.wana_lost_and_found.WanaApplication
 
 const val TAG = "HomeFragment"
 class HomeFragment : Fragment() {
@@ -35,15 +37,17 @@ class HomeFragment : Fragment() {
 
     // This property is only valid between onCreateView and
     // onDestroyView.
+    private val viewModel : HomeViewModel by activityViewModels {
+        HomeViewModelFactory((activity?.application as WanaApplication).container.wanaRepository)
+    }
     private lateinit var binding : FragmentHomeBinding
+    private lateinit var listOfReports: MutableList<Report>
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this)[HomeViewModel::class.java]
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
@@ -51,45 +55,37 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val listOfReports = mutableListOf<Report>()
-        val listAdapter = MyReportsAdapter(requireActivity(), listOfReports){reportId, reportedBy, reportType->
-            val intent = Intent(requireActivity(), ViewReportActivity::class.java)
-            intent.putExtra(REPORT_ID_EXTRA_KEY, reportId)
-            intent.putExtra(REPORTED_BY_EXTRA_KEY, reportedBy)
-            intent.putExtra(REPORT_TYPE_EXTRA_KEY, reportType)
-            requireActivity().startActivity(intent)
+        showProgress()
+
+        viewModel.myReports.observe(viewLifecycleOwner){
+            listOfReports = it
+
+            val listAdapter = MyReportsAdapter(requireActivity(), listOfReports){reportId, reportedBy, reportType->
+                val intent = Intent(requireActivity(), ViewReportActivity::class.java)
+                intent.putExtra(REPORT_ID_EXTRA_KEY, reportId)
+                intent.putExtra(REPORTED_BY_EXTRA_KEY, reportedBy)
+                intent.putExtra(REPORT_TYPE_EXTRA_KEY, reportType)
+                requireActivity().startActivity(intent)
+            }
+            binding.simpleHomeList.adapter = listAdapter
+
+            if (isNetworkAvailable()){
+
+                if(listOfReports.isEmpty()){
+                    showEmptyFolder()
+                    hideProgress()
+                }else{
+                    listAdapter.submitList(listOfReports)
+                    hideProgress()
+                }
+
+
+            }else{
+                context?.let { makeToast(it, "no network") }
+            }
         }
-        binding.simpleHomeList.adapter = listAdapter
 
-        if (isNetworkAvailable()){
-            databaseRef
-                .child(getString(R.string.reports_database_node))
-                .orderByChild("reportedBy")
-                .equalTo(firebaseAuth.currentUser!!.uid)
-                .addValueEventListener(object : ValueEventListener{
-                    override fun onDataChange(snapshot: DataSnapshot) {
 
-                        for (report in snapshot.children){
-                            val item = report.getValue(Report::class.java)
-
-                            item?.let { listOfReports.add(it) }
-                        }
-                        if(listOfReports.isEmpty()){
-                            showEmptyFolder()
-                            hideProgress()
-                        }else{
-                            listAdapter.submitList(listOfReports)
-                            hideProgress()
-                        }
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-                    }
-
-                })
-        }else{
-            context?.let { makeToast(it, "no network") }
-        }
 
     }
 
@@ -114,7 +110,7 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    fun isNetworkAvailable(): Boolean{
+    private fun isNetworkAvailable(): Boolean{
         val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             val networkCapabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)

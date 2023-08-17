@@ -174,16 +174,25 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
                                 }
 
                             }else{
-                                makeToast(this@ActivityAddReport, "enter all fields")
+                                makeToast(this@ActivityAddReport, getString(string.enter_all_fields))
                             }
                         }else{
-                            CoroutineScope(Dispatchers.Main).launch {
-                                uploadReport(if (cameraUri == null) galleryUri else cameraUri)
-                                makeToast(this@ActivityAddReport, "submit item in 3 days to local police")
+                            if(!(editName.text.isNullOrBlank() &&
+                                        editCity.text.isNullOrBlank() &&
+                                        editDescription.text.isNullOrBlank())){
+                                CoroutineScope(Dispatchers.Main).launch {
+                                    uploadReport(if (cameraUri == null) galleryUri else cameraUri)
+                                    makeToast(this@ActivityAddReport,
+                                        getString(string.submission_notice_toast))
+                                }
+                            }else{
+                                makeToast(this@ActivityAddReport, getString(string.enter_all_fields))
                             }
+
                         }
                     }else{
-                        makeToast(this@ActivityAddReport, "take photo or select image")
+                        makeToast(this@ActivityAddReport,
+                            getString(string.take_photo_or_select_image))
                     }
                 }else{
                     if (!(editName.text.isNullOrBlank() &&
@@ -194,7 +203,7 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
                             else if (galleryUri == null) cameraUri else null)
                         }
                     }else{
-                        makeToast(this@ActivityAddReport, "enter all fields")
+                        makeToast(this@ActivityAddReport, getString(string.enter_all_fields))
                     }
 
                 }
@@ -213,7 +222,7 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
         showProgress()
         if (uri == null){
             val report = Report()
-            val downloadUri = "https://firebasestorage.googleapis.com/v0/b/wana-lost-and-found.appspot.com/o/report_images%2Freporters%2Fno_image.jpg?alt=media&token=5c0f116c-5304-4622-baaa-75bfd318268d"
+            val downloadUri = getString(string.default_image_url)
 
             val randomId = UUID.randomUUID().toString()
             uploadToDatabase(report, downloadUri, randomId)
@@ -234,7 +243,7 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
 
             val storageReference = FirebaseStorage.getInstance().reference
                 .child("report_images")
-                .child("${System.currentTimeMillis()}" + getFileExtension(uri!!))
+                .child("${System.currentTimeMillis()}" + getFileExtension(uri))
 
 
             storageReference.putBytes(fileInBytes).addOnSuccessListener {
@@ -504,10 +513,10 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
                             .setTitle("Select Option")
                             .setMessage("Choose where to get your photo")
                             .setNegativeButton("take photo"
-                            ) { p0, p1 ->
+                            ) { _, _ ->
                                 launchCamera()
                             }
-                            .setPositiveButton("select from files"){p0, p1 ->
+                            .setPositiveButton("select from files"){_, _ ->
                                 launchGallery()
                             }
                             .create()
@@ -544,7 +553,7 @@ class ActivityAddReport : AppCompatActivity(), AdapterView.OnItemSelectedListene
 
         // below line is our message for our dialog
         builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.")
-        builder.setPositiveButton("GOTO SETTINGS") { dialog, which ->
+        builder.setPositiveButton("GOTO SETTINGS") { dialog, _ ->
             // this method is called on click on positive button and on clicking shit button
             // we are redirecting our user from our app to the settings page of our app.
             dialog.cancel()

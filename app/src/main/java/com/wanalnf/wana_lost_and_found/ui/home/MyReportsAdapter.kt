@@ -14,8 +14,8 @@ import com.wanalnf.wana_lost_and_found.databinding.MyReportItemLayoutBinding
 import com.wanalnf.wana_lost_and_found.model.Report
 import com.wanalnf.wana_lost_and_found.utils.TimeCalculations
 
-class MyReportsAdapter(val context: Context, var reportList: MutableList<Report>,
-        var onItemClick:(reportId: String, reportedBy: String, reportType: String) -> Unit) : ListAdapter<Report, MyReportsAdapter.SimpleAdapterViewHolder>(DiffCallBack){
+class MyReportsAdapter(val context: Context, private var reportList: MutableList<Report>,
+                       var onItemClick:(reportId: String, reportedBy: String, reportType: String) -> Unit) : ListAdapter<Report, MyReportsAdapter.SimpleAdapterViewHolder>(DiffCallBack){
 
     inner class SimpleAdapterViewHolder(val binding: MyReportItemLayoutBinding):
     RecyclerView.ViewHolder(binding.root){

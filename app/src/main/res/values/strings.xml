@@ -42,4 +42,9 @@
 
     <string name="privacy_policy">Privacy Policy</string>
     <string name="sign_out">Sign out</string>
+    <string name="home_no_reports">No Reports!!\nYour Reports will be shown here</string>
+    <string name="enter_all_fields">enter all fields</string>
+    <string name="take_photo_or_select_image">take photo or select image</string>
+    <string name="submission_notice_toast">submit item in 3 days to local police</string>
+    <string name="default_image_url"><![CDATA[https://firebasestorage.googleapis.com/v0/b/wana-lost-and-found.appspot.com/o/report_images%2Freporters%2Fno_image.jpg?alt=media&token=5c0f116c-5304-4622-baaa-75bfd318268d]]></string>
 </resources>
