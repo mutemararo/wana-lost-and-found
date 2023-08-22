@@ -1,6 +1,5 @@
 package com.wanalnf.wana_lost_and_found.ui.home
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -25,7 +24,7 @@ class HomeViewModel(val repository: WanaRepository): ViewModel() {
             try {
                 _myReports.value = repository.getMyReports()
             } catch (e: Exception) {
-                e.message
+                print(e.message)
             }
         }
     }

@@ -4,7 +4,7 @@ import com.wanalnf.wana_lost_and_found.model.Report
 
 interface WanaRepository {
 
-    fun getMyReports(): MutableList<Report>
+    suspend fun getMyReports(): MutableList<Report>
 
     fun getGlobalLostReports(): List<Report>
     fun getGlobalFoundReports(): List<Report>

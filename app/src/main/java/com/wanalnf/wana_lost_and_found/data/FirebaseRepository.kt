@@ -4,14 +4,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.wanalnf.wana_lost_and_found.model.Report
 
 
 class FirebaseRepository(val firebaseAuth: FirebaseAuth, private val databaseReference: DatabaseReference):
     WanaRepository {
-    override fun getMyReports(): MutableList<Report> {
+    override suspend fun getMyReports(): MutableList<Report> {
 
         val listOfReports = mutableListOf<Report>()
         databaseReference
@@ -34,6 +33,7 @@ class FirebaseRepository(val firebaseAuth: FirebaseAuth, private val databaseRef
                 }
 
             })
+
 
         return listOfReports
     }
