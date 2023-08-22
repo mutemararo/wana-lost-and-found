@@ -47,4 +47,12 @@
     <string name="take_photo_or_select_image">take photo or select image</string>
     <string name="submission_notice_toast">submit item in 3 days to local police</string>
     <string name="default_image_url"><![CDATA[https://firebasestorage.googleapis.com/v0/b/wana-lost-and-found.appspot.com/o/report_images%2Freporters%2Fno_image.jpg?alt=media&token=5c0f116c-5304-4622-baaa-75bfd318268d]]></string>
+    <string name="privacy_policy_url">https://russellappsprivacypolicy.blogspot.com/2023/07/wana-privacy-policy.html</string>
+    <string name="add_report">Add Report</string>
+    <string name="report_item_you_have">Report item you have...</string>
+    <string name="found">Found</string>
+    <string name="lost">Lost</string>
+    <string name="my_reports">My Reports</string>
+    <string name="global_reports">Global Reports</string>
+    <string name="pending_actions">Pending actions</string>
 </resources>

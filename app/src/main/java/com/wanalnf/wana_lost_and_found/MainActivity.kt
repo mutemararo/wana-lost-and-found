@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     private lateinit var navController: NavController
     private val firebaseAuth = FirebaseAuth.getInstance()
-    private val intent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -51,7 +50,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                val uri = "https://russellappsprivacypolicy.blogspot.com/2023/07/wana-privacy-policy.html"
+                val uri = getString(string.privacy_policy_url)
                 when(menuItem.itemId){
                     id.action_sign_out ->{
                         firebaseAuth.signOut()
@@ -94,17 +93,17 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             navController.navigate(direction)*/
 
             val reportTypeDialog = MaterialAlertDialogBuilder(this@MainActivity)
-                .setTitle("Add Report")
-                .setMessage("Report item you have...")
+                .setTitle(getString(string.add_report))
+                .setMessage(getString(string.report_item_you_have))
                 .setIcon(ContextCompat.getDrawable(this@MainActivity, drawable.ic_launcher_foreground))
-                .setPositiveButton("Found"){_, _ ->
+                .setPositiveButton(getString(string.found)){ _, _ ->
                     val foundReportIntent = Intent(this@MainActivity,
                         ActivityAddReport::class.java)
                     foundReportIntent.putExtra(REPORT_TYPE_EXTRA_KEY, ReportType.FOUND.identity)
                     startActivity(foundReportIntent)
 
                 }
-                .setNegativeButton("Lost"){_, _ ->
+                .setNegativeButton(getString(string.lost)){ _, _ ->
                     val lostReportIntent = Intent(this@MainActivity,
                         ActivityAddReport::class.java)
                     lostReportIntent.putExtra(REPORT_TYPE_EXTRA_KEY, ReportType.LOST.identity)
@@ -128,15 +127,15 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
                 hideBottomNavAndFab()
             }
             id.navigation_home ->{
-                supportActionBar!!.title = "My Reports"
+                supportActionBar!!.title = getString(string.my_reports)
                 showBottomNavAndFab()
             }
             id.navigation_reports ->{
-                supportActionBar!!.title = "Global Reports"
+                supportActionBar!!.title = getString(string.global_reports)
                 hideFab()
             }
             id.navigation_pending ->{
-                supportActionBar!!.title = "Pending actions"
+                supportActionBar!!.title = getString(string.pending_actions)
                 hideFab()
             }
         }
